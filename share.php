@@ -20,6 +20,12 @@ if($con->connect_error){
 }
 mysqli_select_db($con, $conf['dbname']);
 
+// Get uploads from user's IP
+$sql = "SELECT * FROM public_uploads WHERE IP = '$ip'";
+$pql = "SELECT * FROM private_uploads WHERE IP = '$ip'";
+$result = $con->query($sql);
+$private_res = $con->query($pql);
+
 // Remove public asset
 if( isset($_POST['rem_pub']) ){
     $fileID = (int)$_POST['fid'];
@@ -64,11 +70,7 @@ if( isset($_POST['rem_pri']) ){
     unlink($toUnlink);
 }
 
-$sql = "SELECT * FROM public_uploads WHERE IP = '$ip'";
-$pql = "SELECT * FROM private_uploads WHERE IP = '$ip'";
-$result = $con->query($sql);
-$private_res = $con->query($pql);
-
+// Close mysql connection
 $con->close();
 
 ?>
@@ -147,7 +149,7 @@ $con->close();
                         <td><a target="_blank" class="fileLink" href="/dl?fname=<?= $row['fname'] ?>"><?= $row['fname'] ?></a><span class="badge bg-primary rounded-pill"><?= $row['fsize'] ?></span></td>
                         <td><?= $row['fdate'] ?></td>
                         <td class="tcenter" style="display:flex;justify-content:center;align-items:center">
-                            <form method="post" action="/share">
+                            <form method="post" action="/share.php">
                                 <input type="hidden" name="fid" value="<?= $row['ID'] ?>">
                                 <input type="submit" name="rem_pri" value="&#xf056" class="btn fa-input fas fa-minus-circle deleteBtn">
                             </form>
@@ -175,7 +177,7 @@ $con->close();
                         <td><a class="fileLink" href="/shared/t-up_<?= $row['fname'] ?>"><?= $row['fname'] ?></a><span class="badge bg-primary rounded-pill"><?= $row['fsize'] ?></span></td>
                         <td><?= $row['fdate'] ?></td>
                         <td class="tcenter">
-                            <form method="post" action="/share">
+                            <form method="post" action="/share.php">
                                 <input type="hidden" name="fid" value="<?= $row['ID'] ?>">
                                 <input type="submit" name="rem_pub" value="&#xf056" class="btn fa-input fas fa-minus-circle deleteBtn">
                             </form>
@@ -301,13 +303,13 @@ $con->close();
                     var xhttp = new XMLHttpRequest();
                     if(protected===true){
                         var pwd = document.getElementById('passToolTip').value;
-                        xhttp.open("POST", "https://ktova.fr/ajax.php?protected=true&id=<?= $ip ?>&pass="+pwd+"", true);
+                        xhttp.open("POST", "/ajax.php?protected=true&id=<?= $ip ?>&pass="+pwd+"", true);
                         xhttp.onload = function(event) {  
                             oOutput = document.querySelector('.img-content');
                             if (xhttp.status == 200) {
                                 $('.stateOn').fadeOut();
                                 $('.stateSucceed').fadeIn();
-                                furl = 'https://ktova.fr/dl?fname=' + file_obj['name'];
+                                furl = '/dl.php?fname=' + file_obj['name'];
                                 oOutput.innerHTML = "Fichier disponible à l'adresse suivante : <a style='color:gold;text-decoration:none' href='"+ furl +"' target='_blank'>"+ furl +"</a>.";
                             } else {
                                 $('.stateOn').fadeOut();
@@ -319,13 +321,13 @@ $con->close();
                     }
 
                     if(protected===false){
-                        xhttp.open("POST", "https://ktova.fr/ajax.php?id=<?= $ip ?>", true);
+                        xhttp.open("POST", "/ajax.php?id=<?= $ip ?>", true);
                         xhttp.onload = function(event) {  
                             oOutput = document.querySelector('.img-content');
                             if (xhttp.status == 200) {
                                 $('.stateOn').fadeOut();
                                 $('.stateSucceed').fadeIn();
-                                furl = 'https://ktova.fr/shared/t-up_' + file_obj['name'];
+                                furl = '/shared/t-up_' + file_obj['name'];
                                 oOutput.innerHTML = "Fichier disponible à l'adresse suivante : <a style='color:gold;text-decoration:none' href='"+ furl +"' target='_blank'>"+ furl +"</a>.";
                             } else {
                                 $('.stateOn').fadeOut();
@@ -344,12 +346,12 @@ $con->close();
 
             function preview(fileName){
                 var extension = fileName.substr(fileName.lastIndexOf(".") + 1);
-                var fileUrl = 'https://ktova.fr/shared/t-up_' + fileName;
+                var fileUrl = '/shared/t-up_' + fileName;
                 var pointer = document.getElementById("drop_file_zone");
                 if( extension == 'png' || extension == 'jpg' || extension == 'gif'){
-                    var previewpack = '<div class="filePreviewer" onclick="closePreview()"> <i class="fas fa-times-circle closePreview" onclick="closePreview()"></i> <img src="'+fileUrl+'"> <p>'+extension.toUpperCase()+' file</p> </div>';
+                    var previewpack = '<div class="filePreviewer" onclick="closePreview()"> <i class="fas fa-times-circle closePreview" onclick="closePreview()"></i> <img src="'+fileUrl+'"> <p style="color:white">'+extension.toUpperCase()+' file</p> </div>';
                 } else {
-                    var previewpack = '<div class="filePreviewer" onclick="closePreview()"> <i class="fas fa-times-circle closePreview" onclick="closePreview()"></i> <img src="https://findicons.com/files/icons/2813/flat_jewels/512/file.png"> <p>'+extension.toUpperCase()+' file</p> </div>';
+                    var previewpack = '<div class="filePreviewer" onclick="closePreview()"> <i class="fas fa-times-circle closePreview" onclick="closePreview()"></i> <img src="/assets/fileicon.png"> <p style="color:white">'+extension.toUpperCase()+' file</p> </div>';
                 }
 
                 pointer.insertAdjacentHTML(

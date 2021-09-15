@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+body{
+    background-color: #1d1d1d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding: 0 100px;
+    color:white;
+    font-family: 'Noto Sans', sans-serif;
+    min-height:100vh;
+}
+form{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+}
+.logofile{
+    font-size: 100px;
+}
+.weight{
+    color:gold;
+}
+hr{
+    width:100%;
+    color:white;
+}
+#filepass{
+    text-align:center;
+    padding:10px;
+}
+#filedl{
+    margin-top:16px;
+    color:gold;
+    border: 1px solid gold;
+    padding: 10px 30px;
+    border-radius:5px;
+    background:none;
+    cursor:pointer;
+    transition: background-color 0.33s;
+    font-weight:400;
+}
+#filedl:hover{
+    background-color: #424242;
+}
+.toUpload > a {
+    text-decoration:none;
+    color:orange;
+}

@@ -50,62 +50,13 @@ if( !isset($_GET['fname']) ){
         <title>Tova's Shared</title>
         <meta name="description" content="Tova shared upload">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/download.css">
         <link rel="shortcut icon" type="image/jpg" href="https://ktova.fr/old-site/static-old/favicontk.png"/>
     </head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/0d2059c859.js" crossorigin="anonymous"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
-        body{
-            background-color: #1d1d1d;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            flex-direction:column;
-            padding: 0 100px;
-            color:white;
-            font-family: 'Noto Sans', sans-serif;
-            min-height:100vh;
-        }
-        form{
-            display:flex;
-            justify-content:center;
-            flex-direction:column;
-        }
-        .logofile{
-            font-size: 100px;
-        }
-        .weight{
-            color:gold;
-        }
-        hr{
-            width:100%;
-            color:white;
-        }
-        #filepass{
-            text-align:center;
-            padding:10px;
-        }
-        #filedl{
-            margin-top:16px;
-            color:gold;
-            border: 1px solid gold;
-            padding: 10px 30px;
-            border-radius:5px;
-            background:none;
-            cursor:pointer;
-            transition: background-color 0.33s;
-            font-weight:400;
-        }
-        #filedl:hover{
-            background-color: #424242;
-        }
-        .toUpload > a {
-            text-decoration:none;
-            color:orange;
-        }
-    </style>
+
     <body class="container-fluid bg-dark bg-gradient">
 
     <img style="margin:20px 0" src="/old-site/static-old/mainlogowhite.svg">
