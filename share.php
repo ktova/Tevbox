@@ -20,12 +20,6 @@ if($con->connect_error){
 }
 mysqli_select_db($con, $conf['dbname']);
 
-// Get uploads from user's IP
-$sql = "SELECT * FROM public_uploads WHERE IP = '$ip'";
-$pql = "SELECT * FROM private_uploads WHERE IP = '$ip'";
-$result = $con->query($sql);
-$private_res = $con->query($pql);
-
 // Remove public asset
 if( isset($_POST['rem_pub']) ){
     $fileID = (int)$_POST['fid'];
@@ -70,6 +64,12 @@ if( isset($_POST['rem_pri']) ){
     unlink($toUnlink);
 }
 
+// Get uploads from user's IP
+$sql = "SELECT * FROM public_uploads WHERE IP = '$ip'";
+$pql = "SELECT * FROM private_uploads WHERE IP = '$ip'";
+$result = $con->query($sql);
+$private_res = $con->query($pql);
+
 // Close mysql connection
 $con->close();
 
@@ -108,8 +108,10 @@ $con->close();
                 <p>or</p>
                 <p><input type="button" value="Select File" onclick="file_explorer();" /></p>
                 <div class="makePriv">
-                    <input type="checkbox" id="dlprotect" name="dlprotect">
-                    <label for="scales">Protected</label>
+                    <div class="form-check form-switch">
+                        <input id="dlprotect" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">&nbsp;
+                        <label id="textprotect" class="form-check-label protectText" for="flexSwitchCheckDefault">Protected</label>
+                    </div>
                     <br>
                     <input type="text" id="passToolTip" name="passToolTip" style="display:none;text-align:center" placeholder="Enter a Pass">
                 </div>
@@ -268,6 +270,12 @@ $con->close();
             }
 
             $( "#dlprotect" ).click(function() {
+                if($("#textprotect").hasClass('active')){
+                    $("#textprotect").html('Protected');
+                } else {
+                    $("#textprotect").html('<i class="fas fa-lock"></i>&nbsp;Protected');
+                }
+                $("#textprotect").toggleClass('active');
                 $("#passToolTip").toggle();
             });
 

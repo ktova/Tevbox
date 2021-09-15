@@ -181,6 +181,14 @@ tr:nth-child(even) {
 td > .badge{
     font-size: 10px;
 }
+.form-switch{
+    display: flex !important;
+    justify-content: center !important;
+    text-align:left;
+}
+.active{
+    color:green;
+}
 
 @media only screen and (max-width: 550px) {
     #content {
