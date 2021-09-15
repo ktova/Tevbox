@@ -1,0 +1,7 @@
+AllowOverride None
+
+<Files *>
+	AllowOverride None
+	SetHandler default-handler
+	AddType text/plain php
+</Files>
