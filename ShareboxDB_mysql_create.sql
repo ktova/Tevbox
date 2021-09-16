@@ -27,7 +27,7 @@ CREATE TABLE `users` (
 
 CREATE TABLE `conn_tokens` (
 	`ID` int NOT NULL AUTO_INCREMENT,
-	`created` DATETIME NOT NULL,
+	`created` timestamp NOT NULL DEFAULT current_timestamp(),
 	`user_id` int NOT NULL,
 	PRIMARY KEY (`ID`)
 );
