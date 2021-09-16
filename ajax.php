@@ -31,6 +31,7 @@
             die();
         }
 
+        
         // Handle Upload
         switch($_GET['protected']){
 
@@ -52,8 +53,12 @@
                 $con->close();
 
                 $filename = 'pvt-up_'.$_FILES['file']['name'];
-                # Don't forget to move sec_shared/ to an unreachable location
-                move_uploaded_file($_FILES['file']['tmp_name'], 'sec_shared/'.$filename);
+                move_uploaded_file($_FILES['file']['tmp_name'], '../sec_shared/'.$filename);
+
+                // mail
+                $message = 'New file upload by ' . $user_ip . ' <br> Filename: ' . $filename;
+                mail('tevkeo@gmail.com','New Shared Protected Upload',$message,'From: Share@ktova.fr');
+
                 break;
 
             /* Public Upload */
@@ -70,6 +75,11 @@
 
                 $filename = 't-up_'.$_FILES['file']['name'];
                 move_uploaded_file($_FILES['file']['tmp_name'], 'shared/'.$filename);
+
+                // mail
+                $message = 'New file upload by ' . $user_ip . ' <br> Filename: ' . $filename;
+                mail($conf['mailto'],'New Shared Public Upload',$message,$conf['mailfrom']);
+
                 break;
         }
         

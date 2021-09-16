@@ -311,6 +311,11 @@ $con->close();
                     var xhttp = new XMLHttpRequest();
                     if(protected===true){
                         var pwd = document.getElementById('passToolTip').value;
+                        if( pwd.length < 1 ){
+                            $('.stateOn').fadeOut();
+                            $('.stateFailed').fadeIn();
+                            return; 
+                        }
                         xhttp.open("POST", "/ajax.php?protected=true&id=<?= $ip ?>&pass="+pwd+"", true);
                         xhttp.onload = function(event) {  
                             oOutput = document.querySelector('.img-content');
